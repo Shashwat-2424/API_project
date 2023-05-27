@@ -1,7 +1,7 @@
 # API_project
 This is a simple project which aims to provide weather condition of a given city just by typing its name.
 
-#Installation
+# Installation
 
 1) Download the above files.
 2) Move to this file by typing in terminal:
