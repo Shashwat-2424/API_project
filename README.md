@@ -24,4 +24,3 @@ This is a simple project which aims to provide weather condition of a given city
 - NodeJS
 - APIs
 - NPM
-- EJS
