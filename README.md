@@ -18,3 +18,10 @@ This is a simple project which aims to provide weather condition of a given city
 <img width="565" alt="Screenshot 2023-05-27 at 5 40 59 PM" src="https://github.com/Shashwat-2424/API_project/assets/97022107/2f08acbb-b417-42f0-bd91-efc6fda655d3">
 
 <img width="625" alt="Screenshot 2023-05-27 at 5 41 23 PM" src="https://github.com/Shashwat-2424/API_project/assets/97022107/8665b870-e8f7-4716-8a6c-c48d0f9654dc">
+
+# Technology Used:
+- HTML
+- NodeJS
+- APIs
+- NPM
+- EJS
