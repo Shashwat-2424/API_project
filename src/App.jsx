@@ -1,35 +1,47 @@
 import { useState ,useEffect} from 'react'
+
 import './App.css'
 import { socket } from './socket';
 
-
 function App() {
   var [city,setcity]=useState('');
-  var [wrep,setwrep] = useState({icon:"",temp:"",desc:""});
+  var [metric,setMetric]=useState('');
+  var [wrep,setwrep] = useState({icon:"",temp:"",desc:"",humid:""});
+ 
+  var mapp={
+    C:"metric",F:"imperial",K:""
+  };
+  
+  
   useEffect(()=>{
     function func(value){
       console.log("yo",value);
-      setwrep(value);
+      if(value.cod===200)
+        setwrep({icon:value.weather[0].icon,temp:value.main.temp,desc:value.weather[0].description,humid:value.main.humidity});
+      else alert(value.message);
     }
     socket.on('receive_data',func);
   },[]);
   
   function fetch(){
-    socket.emit('fetchData',city);
+    socket.emit('fetchData',{city:city,unit:mapp.metric});
   }
   return (
     <>
-  <div class="container">
+  <div className="container">
     <h1>Weather Report</h1>
       <center>
+        <div>
         <input type="text" placeholder="Enter city name" onChange={e=>setcity(e.target.value)} />
+        </div>
         <br />
         <button onClick={fetch}> Submit </button>
         <br />
-        <h2>{city}</h2>
-        <img src={"https://openweathermap.org/img/wn/"+wrep.icon+"@2x.png"} />
-        <h2>{wrep.temp} {wrep.temp===""?"":"Degree Celcius"}</h2>
-        <h3>{wrep.desc}</h3>
+        <h2><img src="../src/assets/pin.png" className='icons'/>{city}</h2>
+        {wrep.icon!==""?<img src={"https://openweathermap.org/img/wn/"+wrep.icon+"@2x.png"} /> : <br /> }
+        {wrep.icon!==""? <h2>{wrep.desc}</h2> :<br />}
+        <h2><img src="../src/assets/thermometer.png" className='icons'/>{wrep.temp} {wrep.temp===""?"":"℃"}</h2>
+        <h3><img src="../src/assets/humidity.png" className='icons'/>{wrep.humid}{wrep.humid===""?"":"%"}</h3>
         </center>
       </div>
     </>
