@@ -1,7 +1,6 @@
 import { useState ,useEffect} from 'react'
 
 import './App.css'
-import { socket } from './socket';
 
 function App() {
   var [city,setcity]=useState('');
@@ -13,19 +12,6 @@ function App() {
   };
   
   
-  useEffect(()=>{
-    function func(value){
-      console.log("yo",value);
-      if(value.cod===200)
-        setwrep({icon:value.weather[0].icon,temp:value.main.temp,desc:value.weather[0].description,humid:value.main.humidity});
-      else alert(value.message);
-    }
-    socket.on('receive_data',func);
-  },[]);
-  
-  function fetch(){
-    socket.emit('fetchData',{city:city,unit:mapp.metric});
-  }
   return (
     <>
   <div className="container">
@@ -35,7 +21,18 @@ function App() {
         <input type="text" placeholder="Enter city name" onChange={e=>setcity(e.target.value)} />
         </div>
         <br />
-        <button onClick={fetch}> Submit </button>
+        <button onClick={() => {
+          fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=c31442d768835d35c4207b13f2e55b31&units=metric")
+            .then((response) => {
+                return response.json();
+            }).then(value => {
+              console.log(value);
+              if(value.cod===200)
+                setwrep({icon:value.weather[0].icon,temp:value.main.temp,desc:value.weather[0].description,humid:value.main.humidity});
+              else 
+                alert(value.message);
+            });
+          }}> Submit </button>
         <br />
         <h2><img src="../src/assets/pin.png" className='icons'/>{city}</h2>
         {wrep.icon!==""?<img src={"https://openweathermap.org/img/wn/"+wrep.icon+"@2x.png"} /> : <br /> }
